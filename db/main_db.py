@@ -2,6 +2,7 @@ import sqlite3
 from db import querles
 from config import path_db
 from typing import Any
+from datetime import datetime
 
 def init_db() -> None:
     conn = sqlite3.connect(path_db)
@@ -11,10 +12,10 @@ def init_db() -> None:
     conn.commit()
     conn.close()
 
-def add_task(task: str | None) -> int:
+def add_task(task: str | None, time: str) -> int:
     conn = sqlite3.connect(path_db)
     cursor = conn.cursor()
-    cursor.execute(querles.INSERT_TASK, (task, ))
+    cursor.execute(querles.INSERT_TASK, (task, time))
     conn.commit()
     task_id = cursor.rowcount
     conn.close()
@@ -28,10 +29,10 @@ def get_tasks() -> list:
     conn.close()
     return tasks
 
-def update_task(id: int, task: str | None) -> None:
+def update_task(id: int, task: str | None, time: str | None) -> None:
     conn = sqlite3.connect(path_db)
     cursor = conn.cursor()
-    cursor.execute(querles.UPDATE_TASK, (task, id))
+    cursor.execute(querles.UPDATE_TASK, (task, time, id))
     conn.commit()
     conn.close()
 
