@@ -23,6 +23,10 @@ def main(page: ft.Page):
             task_field.read_only = False
             task_field.update()
 
+        def delete_task(_):
+            main_db.delete_task(id=task_id) 
+            load_tasks()
+
         def save_task(_):
             new_time = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             task_time.value = new_time
@@ -35,7 +39,9 @@ def main(page: ft.Page):
 
         save_button = ft.IconButton(icon=ft.Icons.SAVE, on_click=save_task)
 
-        return ft.Row([task_field, task_time, edit_button, save_button])
+        delete_button = ft.IconButton(icon=ft.Icons.DELETE, icon_color=ft.Colors.RED , on_click=delete_task)
+
+        return ft.Row([task_field, task_time, edit_button, save_button, delete_button])
 
     def add_task(_):
         if task_input.value:
